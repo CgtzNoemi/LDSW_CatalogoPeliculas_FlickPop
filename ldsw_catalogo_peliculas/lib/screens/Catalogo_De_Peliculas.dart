@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ldsw_catalogo_peliculas/models/peliculas.dart';
+import 'package:ldsw_catalogo_peliculas/screens/Api_Marvel.dart';
 import 'package:ldsw_catalogo_peliculas/screens/Detalle_Pelicula_Screen.dart';
 import 'package:ldsw_catalogo_peliculas/screens/home_Screen.dart';
 import 'package:ldsw_catalogo_peliculas/widgets/Pelicula_Item.dart';
@@ -50,6 +51,29 @@ class _CatalogoDePeliculasState extends State<CatalogoDePeliculas> {
         child: Column(
           children: [
             carrusel(),
+            SizedBox(height: 16.0),
+            Container(
+              width: 280.0,
+              height: 40.0,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ApiMarvel()));
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 191, 12, 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                  ),
+                ),
+                child: Text(
+                  'PERSONAJES DE MARVEL',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                  ),
+                ),
+              ),
+            ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 30.0),
               child: GridView.builder(
@@ -60,17 +84,21 @@ class _CatalogoDePeliculasState extends State<CatalogoDePeliculas> {
                     mainAxisExtent: 260,
                     mainAxisSpacing: 24,
                     crossAxisSpacing: 13,
-                    crossAxisCount: 2
-                ),
+                    crossAxisCount: 2),
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => DetallePeliculaScreen(pelicula: peliculas[index]),),);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DetallePeliculaScreen(pelicula: peliculas[index]),
+                        ),
+                      );
                     },
-                    child: PeliculaItem(pelicula:peliculas[index]),
+                    child: PeliculaItem(pelicula: peliculas[index]),
                   );
                 },
-                
               ),
             ),
           ],

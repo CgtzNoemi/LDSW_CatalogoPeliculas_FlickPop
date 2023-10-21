@@ -42,9 +42,8 @@ class PeliculaItem extends StatelessWidget {
                 pelicula.titulo,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Color(0xFFD916A8),
-                  fontWeight:FontWeight.w200,
-                  fontSize: 18,
+                  fontWeight:FontWeight.bold,
+                  fontSize: 20,
                   fontFamily: GoogleFonts.robotoFlex().fontFamily,
                 ),
               ),
