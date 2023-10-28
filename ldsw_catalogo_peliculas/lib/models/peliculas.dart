@@ -1,5 +1,4 @@
 class Pelicula {
-  String id;
   String titulo;
   String director;
   int anio;
@@ -9,7 +8,6 @@ class Pelicula {
   String imagenUrl;
 
   Pelicula({
-    required this.id,
     required this.titulo,
     required this.director,
     required this.anio,
@@ -18,9 +16,21 @@ class Pelicula {
     required this.sinopsis,
     required this.imagenUrl,
   });
+  factory Pelicula.fromMap(Map<String, dynamic> map) {
+    return Pelicula(
+      titulo: map['titulo'],
+      director: map['director'],
+      anio: (map['anio'] is String) ? int.tryParse(map['anio']): map['anio'],
+      duracion: map['duracion'],
+      genero: map['genero'],
+      sinopsis: map['sinopsis'],
+      imagenUrl: map['imagenURL'],  
+    );
+  }
+
 }
 
-List<Pelicula> listOfPeliculas(){
+/*List<Pelicula> listOfPeliculas(){
   return [
       Pelicula(
         id: '1',
@@ -63,4 +73,4 @@ List<Pelicula> listOfPeliculas(){
         imagenUrl:'1681438308_6438b66475203.jpeg',
       ),
   ];
-}
+}*/

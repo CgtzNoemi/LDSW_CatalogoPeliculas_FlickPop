@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ldsw_catalogo_peliculas/models/peliculas.dart';
+import 'package:ldsw_catalogo_peliculas/Conexiones/firebase_obtenerDatos.dart';
 import 'package:ldsw_catalogo_peliculas/screens/Api_Marvel.dart';
 import 'package:ldsw_catalogo_peliculas/screens/Detalle_Pelicula_Screen.dart';
 import 'package:ldsw_catalogo_peliculas/screens/home_Screen.dart';
@@ -15,7 +15,7 @@ class CatalogoDePeliculas extends StatefulWidget {
 }
 
 class _CatalogoDePeliculasState extends State<CatalogoDePeliculas> {
-  List<Pelicula> peliculas = listOfPeliculas();
+  //List<Pelicula> peliculas = listOfPeliculas();
 
   @override
   Widget build(BuildContext context) {
@@ -74,32 +74,45 @@ class _CatalogoDePeliculasState extends State<CatalogoDePeliculas> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 30.0),
-              child: GridView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: peliculas.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    mainAxisExtent: 260,
-                    mainAxisSpacing: 24,
-                    crossAxisSpacing: 13,
-                    crossAxisCount: 2),
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              DetallePeliculaScreen(pelicula: peliculas[index]),
-                        ),
-                      );
-                    },
-                    child: PeliculaItem(pelicula: peliculas[index]),
+            FutureBuilder(
+              future: getPeliculas(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 12.0, vertical: 30.0),
+                    child: GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data?.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              mainAxisExtent: 260,
+                              mainAxisSpacing: 24,
+                              crossAxisSpacing: 13,
+                              crossAxisCount: 2),
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    DetallePeliculaScreen(pelicula: snapshot.data![index]),
+                              ),
+                            );
+                          },
+                          child: PeliculaItem(pelicula: snapshot.data![index]),
+                        );
+                      },
+                    ),
                   );
-                },
-              ),
+                } else{
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
             ),
           ],
         ),

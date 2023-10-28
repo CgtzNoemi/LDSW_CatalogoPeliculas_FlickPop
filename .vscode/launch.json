@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense para saber los atributos posibles.
+    // Mantenga el puntero para ver las descripciones de los existentes atributos.
+    // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ldsw_catalogo_peliculas",
+            "cwd": "ldsw_catalogo_peliculas",
+            "request": "launch",
+            "type": "dart",
+        },
+        {
+            "name": "ldsw_catalogo_peliculas (profile mode)",
+            "cwd": "ldsw_catalogo_peliculas",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "ldsw_catalogo_peliculas (release mode)",
+            "cwd": "ldsw_catalogo_peliculas",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}
