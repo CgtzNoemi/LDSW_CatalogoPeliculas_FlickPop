@@ -1,10 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ldsw_catalogo_peliculas/Conexiones/firebase_obtenerDatos.dart';
 import 'package:ldsw_catalogo_peliculas/screens/Api_Marvel.dart';
 import 'package:ldsw_catalogo_peliculas/screens/Detalle_Pelicula_Screen.dart';
 import 'package:ldsw_catalogo_peliculas/screens/home_Screen.dart';
+import 'package:ldsw_catalogo_peliculas/screens/pantalla_administracion.dart';
 import 'package:ldsw_catalogo_peliculas/widgets/Pelicula_Item.dart';
 
 class CatalogoDePeliculas extends StatefulWidget {
@@ -16,17 +18,114 @@ class CatalogoDePeliculas extends StatefulWidget {
 
 class _CatalogoDePeliculasState extends State<CatalogoDePeliculas> {
   //List<Pelicula> peliculas = listOfPeliculas();
-
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
+    String? _email = _auth.currentUser!.email;
     return Scaffold(
-      drawer: Drawer(),
+      drawer: Drawer(
+          child: ListView(
+        children: [
+          SizedBox(
+            height: 80.0,
+            child: DrawerHeader(
+              decoration: BoxDecoration(
+                color: Color.fromARGB(206, 198, 108, 233),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10.0),
+                  bottomRight: Radius.circular(10.0),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 8,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Center(
+                child: Text(
+                  _email!,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          ListTile(
+            onTap: (){
+              Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => CatalogoDePeliculas()));
+            },
+            leading: Icon(Icons.movie),
+            title: Text(
+              'Catálogo de películas',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+              ),
+            ),
+          ),
+          ListTile(
+            onTap: (){
+              Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ApiMarvel()));
+            },
+            leading: Icon(Icons.person_2),
+            title: Text(
+              'Personajes de Marvel',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+              ),
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => pantallaadministracion()));
+            },
+            leading: Icon(Icons.dashboard),
+            title: Text(
+              'Pantalla de administración',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+              ),
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              _auth.signOut();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => homeScreen()));
+            },
+            leading: Icon(Icons.logout),
+            title: Text(
+              'Cerrar sesión',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+              ),
+            ),
+          ),
+        ],
+      )),
       appBar: AppBar(
         backgroundColor: Color.fromARGB(206, 198, 108, 233),
         title: GestureDetector(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => homeScreen()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CatalogoDePeliculas()));
             },
             child: Row(
               children: [
@@ -51,33 +150,12 @@ class _CatalogoDePeliculasState extends State<CatalogoDePeliculas> {
         child: Column(
           children: [
             carrusel(),
-            SizedBox(height: 16.0),
-            Container(
-              width: 280.0,
-              height: 40.0,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ApiMarvel()));
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 191, 12, 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                  ),
-                ),
-                child: Text(
-                  'PERSONAJES DE MARVEL',
-                  style: TextStyle(
-                    fontSize: 20.0,
-                  ),
-                ),
-              ),
-            ),
             FutureBuilder(
               future: getPeliculas(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
+                  print('Longitud de la lista de películas: ${snapshot.data?.length}');
+
                   return Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: 12.0, vertical: 30.0),
@@ -97,8 +175,8 @@ class _CatalogoDePeliculasState extends State<CatalogoDePeliculas> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    DetallePeliculaScreen(pelicula: snapshot.data![index]),
+                                builder: (context) => DetallePeliculaScreen(
+                                    pelicula: snapshot.data![index]),
                               ),
                             );
                           },
@@ -107,7 +185,7 @@ class _CatalogoDePeliculasState extends State<CatalogoDePeliculas> {
                       },
                     ),
                   );
-                } else{
+                } else {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );

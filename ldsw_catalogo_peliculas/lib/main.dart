@@ -1,15 +1,22 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:ldsw_catalogo_peliculas/screens/pantalla_Presentacion.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+
 
 
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  Platform.isAndroid?
   await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
-  );
+  options: const FirebaseOptions(
+    storageBucket: "catalogo-peliculas-1a983.appspot.com",
+    apiKey: "AIzaSyAOuicP5DZEzM9qPW2gFAgVnrb0Z8J0U98", 
+    appId: "1:506025288861:android:30d48fbcfc3fc2304ca074", 
+    messagingSenderId: "506025288861", 
+    projectId: "catalogo-peliculas-1a983"),
+  ) : await Firebase.initializeApp();
   runApp(MyApp());
   
 }

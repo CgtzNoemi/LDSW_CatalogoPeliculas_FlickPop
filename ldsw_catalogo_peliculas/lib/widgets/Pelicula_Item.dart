@@ -8,6 +8,8 @@ class PeliculaItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('URL almacenada en la base de datos: ${pelicula.imagenUrl}');
+
     return Container(
         color: Colors.transparent,
         child: Column(
@@ -27,11 +29,12 @@ class PeliculaItem extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Image.asset(
-                  'images/${pelicula.imagenUrl}',
+                child: Image.network(
+                  pelicula.imagenUrl,
                   fit: BoxFit.cover,
                   alignment: Alignment.topCenter,
                 ),
+
               ),
             ),
             SizedBox(height: 5.0),

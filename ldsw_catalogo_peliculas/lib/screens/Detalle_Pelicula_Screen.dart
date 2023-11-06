@@ -43,8 +43,8 @@ class _DetallePeliculaScreenState extends State<DetallePeliculaScreen> {
                     borderRadius: BorderRadius.circular(16.0),
                     child: Material(
                       elevation: 4.0,
-                      child: Image.asset(
-                        'images/${widget.pelicula.imagenUrl}',
+                      child: Image.network(
+                        widget.pelicula.imagenUrl,
                         fit: BoxFit.cover,
                         alignment: Alignment.topCenter,
                       ),

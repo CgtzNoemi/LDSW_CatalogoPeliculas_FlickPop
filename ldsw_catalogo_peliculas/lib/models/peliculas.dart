@@ -1,4 +1,5 @@
 class Pelicula {
+  String id;
   String titulo;
   String director;
   int anio;
@@ -7,26 +8,31 @@ class Pelicula {
   String sinopsis;
   String imagenUrl;
 
+
   Pelicula({
+    required this.id,
     required this.titulo,
     required this.director,
     required this.anio,
     required this.duracion,
     required this.genero,
     required this.sinopsis,
-    required this.imagenUrl,
+    required this.imagenUrl,  
   });
-  factory Pelicula.fromMap(Map<String, dynamic> map) {
+  factory Pelicula.fromMap(Map<String, dynamic> map, String id) {
     return Pelicula(
+      id: id,
       titulo: map['titulo'],
       director: map['director'],
       anio: (map['anio'] is String) ? int.tryParse(map['anio']): map['anio'],
       duracion: map['duracion'],
       genero: map['genero'],
       sinopsis: map['sinopsis'],
-      imagenUrl: map['imagenURL'],  
+      imagenUrl: map['imagenUrl'],  
     );
   }
+
+  
 
 }
 
